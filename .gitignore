@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+glad/*
+*.swp
+.DS_Store
+*.png~
+Release/*

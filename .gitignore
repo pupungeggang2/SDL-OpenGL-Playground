@@ -31,8 +31,8 @@
 *.out
 *.app
 
-glad/
-Release/
+*/glad/
+*/Release/
 *.swp
 .DS_Store
 *.png~

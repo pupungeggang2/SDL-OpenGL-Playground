@@ -32,6 +32,8 @@
 *.app
 
 glad/
+GLFW/
+SDL2/
 Release/
 *.swp
 .DS_Store

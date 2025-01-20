@@ -31,9 +31,14 @@
 *.out
 *.app
 
+# Libraries
 glad/
 GLFW/
 SDL2/
+SDL2.framework
+
+main
+
 Release/
 *.swp
 .DS_Store

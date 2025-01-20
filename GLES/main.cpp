@@ -1,8 +1,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#ifdef __APPLE__
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
-
+#endif
 const char* vertexShaderSource = R"(#version 300 es
     in vec4 a_position;
     in vec3 a_color;

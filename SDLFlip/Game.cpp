@@ -8,6 +8,7 @@ int clickTimeLeft = 0;
 int clickNum = 0;
 int clickA = -1;
 int clickB = -1;
+int flips = 0;
 
 bool check = false;
 int checkTime = 0;
@@ -63,4 +64,5 @@ void checkTwoSame() {
     covered[clickB] = 1;
     clickA = -1;
     clickB = -1;
+    flips += 1;
 }

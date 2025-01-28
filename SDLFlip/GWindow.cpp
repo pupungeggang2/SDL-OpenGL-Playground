@@ -5,9 +5,15 @@
 #ifdef _WIN32
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
+
 SDL_Window *window;
 SDL_GLContext context;
-SDL_Surface *sur;
+SDL_Surface *sur, *UISurface, *textSurface;
+SDL_Renderer *renderer;
+SDL_Color sdlBlack;
+SDL_Rect UIText;
+
+TTF_Font *font;
 
 int windowWidth = 640, windowHeight = 640;
 bool running = true;
@@ -26,6 +32,10 @@ float texCoord[5][12] = {
     {1.0, 0.5, 1.0, 0.0, 0.75, 0.5, 0.75, 0.5, 1.0, 0.0, 0.75, 0.0},
 };
 
+float texFull[12] = {
+    1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0
+};
+
 extern std::vector<int> board;
 extern std::vector<int> covered;
 extern std::vector<int> exist;
@@ -36,6 +46,7 @@ extern int clickA;
 extern int clickB;
 extern bool check;
 extern int checkTime;
+extern int flips;
 
 void SWindowInit() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -51,7 +62,17 @@ void SWindowInit() {
         exit(0);
     }
     
+    if (TTF_Init() == -1) {
+        exit(0);        
+    }
+
     sur = IMG_Load("Texture.png");
+    font = TTF_OpenFont("neodgm.ttf", 32);
+
+    UISurface = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0);
+
+    sdlBlack = {0, 0, 0, 255};
+    UIText = {10, 10};
 }
 
 void SWindowLoop() {
@@ -122,38 +143,43 @@ void renderInit() {
     glMatrixMode(GL_MODELVIEW);
     
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState (GL_TEXTURE_COORD_ARRAY);
+
+
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sur->w, sur->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, sur->pixels);
-    
-    glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 void render() {
-    glEnable(GL_TEXTURE_2D);
     glClear(GL_COLOR_BUFFER_BIT);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-    
+    glBindTexture(GL_TEXTURE_2D, texture);
+
     for (int i = 0; i < 8; i++) {
         if (exist[i] == 1) {
-            renderAt(texture, texCoord[board[i]], UI[i][0], UI[i][1], UI[i][2], UI[i][3]);
+            renderAt(sur, texCoord[board[i]], UI[i][0], UI[i][1], UI[i][2], UI[i][3]);
             if (covered[i] == 1) {
-                renderAt(texture, texCoord[0], UI[i][0], UI[i][1], UI[i][2], UI[i][3]);
+                renderAt(sur, texCoord[0], UI[i][0], UI[i][1], UI[i][2], UI[i][3]);
             }
         }
     }
+    SDL_FillRect(UISurface, NULL, 0x00000000);
+    textSurface = TTF_RenderText_Blended(font, std::to_string(flips).c_str(), sdlBlack);
+    SDL_BlitSurface(textSurface, 0, UISurface, &UIText);
+    renderAt(UISurface, texFull, 0, 0, UISurface->w, UISurface->h);
 }
 
-void renderAt(unsigned int texture, float texCoord[12], float x, float y, float w, float h) {
+void renderAt(SDL_Surface *img, float texCoord[12], float x, float y, float w, float h) {
     float v[12] = {
         x + w, y + h, x + w, y, x, y + h, x, y + h, x + w, y, x, y
     };
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->w, img->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
     glVertexPointer(2, GL_FLOAT, 0, v);
     glTexCoordPointer(2, GL_FLOAT, 0, texCoord);
     glDrawArrays(GL_TRIANGLES, 0, 6);

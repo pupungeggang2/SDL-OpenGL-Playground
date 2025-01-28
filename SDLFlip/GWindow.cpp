@@ -2,7 +2,9 @@
 #include "Game.hpp"
 #include "Physics.hpp"
 #define FRAME_INTERVAL 25
-
+#ifdef _WIN32
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
 SDL_Window *window;
 SDL_GLContext context;
 SDL_Surface *sur;
@@ -128,7 +130,7 @@ void renderInit() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sur->w, sur->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, sur->pixels);
     
-    glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 }
 

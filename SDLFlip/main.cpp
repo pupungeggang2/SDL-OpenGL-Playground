@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "GWindow.hpp"
 
-int main() {
+int main(int argc, char *argv[]) {
     gameInit();
     SWindowInit();
     renderInit();

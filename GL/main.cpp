@@ -43,7 +43,7 @@ const char* vertexShaderSource = R"(#version 330 core
     void main() {
         mat4 rotation_mat = mat4(1.0);
         getRotate(u_rotate, rotation_mat);
-        gl_Position = rotation_mat * a_position;
+        gl_Position = a_position;
         p_color = a_color;
     }
 )";

@@ -3,12 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#ifdef __APPLE__
 #include <glad/glad.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
 #ifdef __APPLE__
 #include <SDL.h>
 #include <SDL_image.h>

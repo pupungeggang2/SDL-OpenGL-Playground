@@ -67,6 +67,7 @@ void SWindowInit() {
     }
 
     sur = IMG_Load("Texture.png");
+    sur = SDL_ConvertSurfaceFormat(sur, SDL_PIXELFORMAT_RGBA32, 0);
     font = TTF_OpenFont("neodgm.ttf", 32);
 
     UISurface = SDL_CreateRGBSurface(0, windowWidth, windowHeight, 32, 0, 0, 0, 0);

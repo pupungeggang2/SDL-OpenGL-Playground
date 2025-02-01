@@ -136,6 +136,9 @@ void SWindowEnd() {
 }
 
 void renderInit() {
+    #ifdef __APPLE__
+    gladLoadGL();
+    #endif
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

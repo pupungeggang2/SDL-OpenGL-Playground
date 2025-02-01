@@ -36,7 +36,8 @@ glad/
 glades/
 GLFW/
 SDL2/
-SDL2.framework
+SDL2.framework/
+SDL2_*.framework/
 
 main
 

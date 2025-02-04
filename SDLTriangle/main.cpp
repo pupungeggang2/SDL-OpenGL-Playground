@@ -136,13 +136,13 @@ int main(int argc, char* argv[]) {
         glUniform3f(luRot, rx, ry, rz);
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        std::cout << SDL_GetTicks() - frameCurrent << std::endl;
+        //std::cout << SDL_GetTicks() - frameCurrent << std::endl;
         SDL_GL_SwapWindow(window);
         
-        //frameCurrent = SDL_GetTicks();
-        //if (frameCurrent < frameNext) {
-            //SDL_Delay(frameNext - frameCurrent);
-        //}
+        frameCurrent = SDL_GetTicks();
+        if (frameCurrent < frameNext) {
+            SDL_Delay(frameNext - frameCurrent);
+        }
     }
 
     return 0;

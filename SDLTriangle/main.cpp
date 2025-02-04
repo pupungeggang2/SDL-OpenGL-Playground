@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-const char* vertexShaderSource = R"(#version 300 es
+const char* vertexShaderSource = R"(#version 330 core
     in vec4 a_position;
     in vec3 a_color;
     uniform vec3 u_rotate;
@@ -47,7 +47,7 @@ const char* vertexShaderSource = R"(#version 300 es
     }
 )";
 
-const char* fragmentShaderSource = R"(#version 300 es
+const char* fragmentShaderSource = R"(#version 330 core
     precision highp float;
     in vec3 p_color;
     out vec4 outColor;
@@ -71,16 +71,20 @@ int main(int argc, char* argv[]) {
         -0.433, -0.25, 0.0, 0.0, 1.0, 0.0,
         0.433, -0.25, 0.0, 0.0, 0.0, 1.0
     };
-
-    SDL_Init(SDL_INIT_EVERYTHING);
-    window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
-    context = SDL_GL_CreateContext(window);
    
     #ifndef __APPLE__
     gladLoadGLES2Loader(SDL_GL_GetProcAddress);
     #else
-    gladLoadGL();
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     #endif
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+    window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+    context = SDL_GL_CreateContext(window);
+    gladLoadGL();
+
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);

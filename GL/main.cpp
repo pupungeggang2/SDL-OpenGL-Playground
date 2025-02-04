@@ -110,6 +110,7 @@ int main(int argc, char* argv[]) {
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
+    std::cout << glGetString(GL_VERSION) <<std::endl;
 
     // Var
     float m[16] = {

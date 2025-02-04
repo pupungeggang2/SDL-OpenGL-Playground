@@ -1,6 +1,10 @@
-#include <glad/glad.h>
 #include <SDL2/SDL.h>
 #include <iostream>
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#else
+#include <glad/glad.h>
+#endif
 
 const char* vertexShaderSource = R"(#version 330 core
     in vec4 a_position;
@@ -75,7 +79,9 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
+    #ifndef __APPLE__
     gladLoadGLLoader(SDL_GL_GetProcAddress);
+    #endif
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);

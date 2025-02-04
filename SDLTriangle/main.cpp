@@ -115,8 +115,8 @@ int main(int argc, char* argv[]) {
 
     while (running) {
         frameCurrent = SDL_GetTicks();
-        frameNext = frameCurrent + 10;
-        delta = 10;
+        frameNext = frameCurrent + 25;
+        delta = 25;
         rz += delta / 1000.0;
         
         SDL_Event event;

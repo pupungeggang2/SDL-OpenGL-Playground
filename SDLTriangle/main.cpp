@@ -71,19 +71,19 @@ int main(int argc, char* argv[]) {
         -0.433, -0.25, 0.0, 0.0, 1.0, 0.0,
         0.433, -0.25, 0.0, 0.0, 0.0, 1.0
     };
-   
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+    window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+    context = SDL_GL_CreateContext(window);
+
     #ifndef __APPLE__
     gladLoadGLES2Loader(SDL_GL_GetProcAddress);
     #else
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-    #endif
-
-    SDL_Init(SDL_INIT_EVERYTHING);
-    window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
-    context = SDL_GL_CreateContext(window);
     gladLoadGL();
+    #endif
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);

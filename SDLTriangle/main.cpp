@@ -76,7 +76,11 @@ int main(int argc, char* argv[]) {
     window = SDL_CreateWindow("Triangle Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
    
+    #ifndef __APPLE__
     gladLoadGLES2Loader(SDL_GL_GetProcAddress);
+    #else
+    gladLoadGL();
+    #endif
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);

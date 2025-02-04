@@ -137,7 +137,7 @@ void SWindowEnd() {
 }
 
 void renderInit() {
-    gladLoadGL();
+    gladLoadGLLoader(SDL_GL_GetProcAddress);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -149,7 +149,6 @@ void renderInit() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-
 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
